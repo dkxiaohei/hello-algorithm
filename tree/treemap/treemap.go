@@ -1,6 +1,6 @@
-// Package tree
+// Package treemap
 // Based on https://github.com/Tufin/asciitree
-package tree
+package treemap
 
 import (
 	"fmt"
