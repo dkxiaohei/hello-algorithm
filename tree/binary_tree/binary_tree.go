@@ -36,3 +36,23 @@ func (root *TreeNode) GetTreeDegree() int {
 	}
 	return int(1 + math.Max(float64(root.Left.GetTreeDegree()), float64(root.Right.GetTreeDegree())))
 }
+
+func (root *TreeNode) InsertTreeNode(v int) {
+	if root == nil {
+		return
+	}
+	if v <= root.Data {
+		if root.Left == nil {
+			root.Left = CreateTreeNode(v)
+			return
+		}
+		root.Left.InsertTreeNode(v)
+		return
+	}
+	if root.Right == nil {
+		root.Right = CreateTreeNode(v)
+		return
+	}
+	root.Right.InsertTreeNode(v)
+}
+
