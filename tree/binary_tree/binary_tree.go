@@ -56,3 +56,16 @@ func (root *TreeNode) InsertTreeNode(v int) {
 	root.Right.InsertTreeNode(v)
 }
 
+func (root *TreeNode) Search(v int) *TreeNode {
+	if root == nil {
+		return nil
+	}
+	if v == root.Data {
+		return root
+	}
+	if v < root.Data {
+		return root.Left.Search(v)
+	}
+	return root.Right.Search(v)
+}
+

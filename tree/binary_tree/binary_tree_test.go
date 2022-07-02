@@ -53,3 +53,25 @@ func TestInsertTreeNode(t *testing.T) {
 	assert.Equal(t, 21, root.Left.Data)
 }
 
+func TestSearchWithEmptyTree(t *testing.T) {
+	var root *TreeNode
+	result := root.Search(42)
+
+	assert.Nil(t, result)
+}
+
+func TestSearchWhenHit(t *testing.T) {
+	root := InitTree()
+	result := root.Search(3)
+
+	assert.NotNil(t, result)
+	assert.Equal(t, 3, result.Data)
+}
+
+func TestSearchWhenNotHit(t *testing.T) {
+	root := InitTree()
+	result := root.Search(42)
+
+	assert.Nil(t, result)
+}
+
