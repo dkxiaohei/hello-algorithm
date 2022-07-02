@@ -1,6 +1,10 @@
 package binary_tree
 
-import "math"
+import (
+	"container/list"
+	"fmt"
+	"math"
+)
 
 type TreeNode struct {
 	Data  int
@@ -67,5 +71,52 @@ func (root *TreeNode) Search(v int) *TreeNode {
 		return root.Left.Search(v)
 	}
 	return root.Right.Search(v)
+}
+
+func (root *TreeNode) PreOrderTraverse() {
+	if root == nil {
+		return
+	}
+	fmt.Print(root.Data, " ")
+	root.Left.PreOrderTraverse()
+	root.Right.PreOrderTraverse()
+}
+
+func (root *TreeNode) MidOrderTraverse() {
+	if root == nil {
+		return
+	}
+	root.Left.MidOrderTraverse()
+	fmt.Print(root.Data, " ")
+	root.Right.MidOrderTraverse()
+}
+
+func (root *TreeNode) PostOrderTraverse() {
+	if root == nil {
+		return
+	}
+	root.Left.PostOrderTraverse()
+	root.Right.PostOrderTraverse()
+	fmt.Print(root.Data, " ")
+}
+
+func (root *TreeNode) LevelOrderTraverse() {
+	if root == nil {
+		return
+	}
+	queue := list.New()
+	queue.PushBack(root)
+	for queue.Len() > 0 {
+		element := queue.Front()
+		treeNode := element.Value.(*TreeNode)
+		fmt.Print(treeNode.Data, " ")
+		if treeNode.Left != nil {
+			queue.PushBack(treeNode.Left)
+		}
+		if treeNode.Right != nil {
+			queue.PushBack(treeNode.Right)
+		}
+		queue.Remove(element)
+	}
 }
 

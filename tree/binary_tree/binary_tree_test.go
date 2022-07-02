@@ -75,3 +75,23 @@ func TestSearchWhenNotHit(t *testing.T) {
 	assert.Nil(t, result)
 }
 
+func TestPreOrderTraverse(t *testing.T) {
+	root := InitTree()
+	root.PreOrderTraverse()
+}
+
+func TestMidOrderTraverse(t *testing.T) {
+	root := InitTree()
+	root.MidOrderTraverse()
+}
+
+func TestPostOrderTraverse(t *testing.T) {
+	root := InitTree()
+	root.PostOrderTraverse()
+}
+
+func TestLevelOrderTraverse(t *testing.T) {
+	root := InitTree()
+	root.LevelOrderTraverse()
+}
+
