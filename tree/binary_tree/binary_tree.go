@@ -7,13 +7,13 @@ import (
 )
 
 type TreeNode struct {
-	Data  int
+	value int
 	Left  *TreeNode
 	Right *TreeNode
 }
 
-func CreateTreeNode(v int) *TreeNode {
-	return &TreeNode{v, nil, nil}
+func CreateTreeNode(value int) *TreeNode {
+	return &TreeNode{value, nil, nil}
 }
 
 func InitTree() *TreeNode {
@@ -41,43 +41,43 @@ func (root *TreeNode) GetTreeDegree() int {
 	return int(1 + math.Max(float64(root.Left.GetTreeDegree()), float64(root.Right.GetTreeDegree())))
 }
 
-func (root *TreeNode) InsertTreeNode(v int) {
+func (root *TreeNode) InsertTreeNode(value int) {
 	if root == nil {
 		return
 	}
-	if v <= root.Data {
+	if value <= root.value {
 		if root.Left == nil {
-			root.Left = CreateTreeNode(v)
+			root.Left = CreateTreeNode(value)
 			return
 		}
-		root.Left.InsertTreeNode(v)
+		root.Left.InsertTreeNode(value)
 		return
 	}
 	if root.Right == nil {
-		root.Right = CreateTreeNode(v)
+		root.Right = CreateTreeNode(value)
 		return
 	}
-	root.Right.InsertTreeNode(v)
+	root.Right.InsertTreeNode(value)
 }
 
-func (root *TreeNode) Search(v int) *TreeNode {
+func (root *TreeNode) Search(value int) *TreeNode {
 	if root == nil {
 		return nil
 	}
-	if v == root.Data {
+	if value == root.value {
 		return root
 	}
-	if v < root.Data {
-		return root.Left.Search(v)
+	if value < root.value {
+		return root.Left.Search(value)
 	}
-	return root.Right.Search(v)
+	return root.Right.Search(value)
 }
 
 func (root *TreeNode) PreOrderTraverse() {
 	if root == nil {
 		return
 	}
-	fmt.Print(root.Data, " ")
+	fmt.Print(root.value, " ")
 	root.Left.PreOrderTraverse()
 	root.Right.PreOrderTraverse()
 }
@@ -87,7 +87,7 @@ func (root *TreeNode) MidOrderTraverse() {
 		return
 	}
 	root.Left.MidOrderTraverse()
-	fmt.Print(root.Data, " ")
+	fmt.Print(root.value, " ")
 	root.Right.MidOrderTraverse()
 }
 
@@ -97,7 +97,7 @@ func (root *TreeNode) PostOrderTraverse() {
 	}
 	root.Left.PostOrderTraverse()
 	root.Right.PostOrderTraverse()
-	fmt.Print(root.Data, " ")
+	fmt.Print(root.value, " ")
 }
 
 func (root *TreeNode) LevelOrderTraverse() {
@@ -109,7 +109,7 @@ func (root *TreeNode) LevelOrderTraverse() {
 	for queue.Len() > 0 {
 		element := queue.Front()
 		treeNode := element.Value.(*TreeNode)
-		fmt.Print(treeNode.Data, " ")
+		fmt.Print(treeNode.value, " ")
 		if treeNode.Left != nil {
 			queue.PushBack(treeNode.Left)
 		}

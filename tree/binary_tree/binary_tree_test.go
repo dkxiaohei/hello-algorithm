@@ -9,88 +9,88 @@ func TestCreateTreeNode(t *testing.T) {
 	root := CreateTreeNode(42)
 
 	assert.NotNil(t, root)
-	assert.Equal(t, 42, root.Data)
+	assert.Equal(t, 42, root.value)
 	assert.Nil(t, root.Left)
 	assert.Nil(t, root.Right)
 }
 
-func TestGetTreeNodeNumWithEmptyTree(t *testing.T) {
+func TestTreeNode_GetTreeNodeNumWithEmptyTree(t *testing.T) {
 	var root *TreeNode
 
 	assert.Equal(t, 0, root.GetTreeNodeNum())
 }
 
-func TestGetTreeNodeNum(t *testing.T) {
+func TestTreeNode_GetTreeNodeNum(t *testing.T) {
 	root := InitTree()
 
 	assert.Equal(t, 7, root.GetTreeNodeNum())
 }
 
-func TestGetTreeDegreeWithEmptyTree(t *testing.T) {
+func TestTreeNode_GetTreeDegreeWithEmptyTree(t *testing.T) {
 	var root *TreeNode
 
 	assert.Equal(t, 0, root.GetTreeDegree())
 }
 
-func TestGetTreeDegree(t *testing.T) {
+func TestTreeNode_GetTreeDegree(t *testing.T) {
 	root := InitTree()
 
 	assert.Equal(t, 3, root.GetTreeDegree())
 }
 
-func TestInsertTreeNodeWithEmptyTree(t *testing.T) {
+func TestTreeNode_InsertTreeNodeWithEmptyTree(t *testing.T) {
 	var root *TreeNode
 	root.InsertTreeNode(42)
 
 	assert.Nil(t, root)
 }
 
-func TestInsertTreeNode(t *testing.T) {
+func TestTreeNode_InsertTreeNode(t *testing.T) {
 	root := CreateTreeNode(42)
 	root.InsertTreeNode(21)
 
 	assert.NotNil(t, root.Left)
-	assert.Equal(t, 21, root.Left.Data)
+	assert.Equal(t, 21, root.Left.value)
 }
 
-func TestSearchWithEmptyTree(t *testing.T) {
+func TestTreeNode_SearchWithEmptyTree(t *testing.T) {
 	var root *TreeNode
 	result := root.Search(42)
 
 	assert.Nil(t, result)
 }
 
-func TestSearchWhenHit(t *testing.T) {
+func TestTreeNode_SearchWhenHit(t *testing.T) {
 	root := InitTree()
 	result := root.Search(3)
 
 	assert.NotNil(t, result)
-	assert.Equal(t, 3, result.Data)
+	assert.Equal(t, 3, result.value)
 }
 
-func TestSearchWhenNotHit(t *testing.T) {
+func TestTreeNode_SearchWhenNotHit(t *testing.T) {
 	root := InitTree()
 	result := root.Search(42)
 
 	assert.Nil(t, result)
 }
 
-func TestPreOrderTraverse(t *testing.T) {
+func TestTreeNode_PreOrderTraverse(t *testing.T) {
 	root := InitTree()
 	root.PreOrderTraverse()
 }
 
-func TestMidOrderTraverse(t *testing.T) {
+func TestTreeNode_MidOrderTraverse(t *testing.T) {
 	root := InitTree()
 	root.MidOrderTraverse()
 }
 
-func TestPostOrderTraverse(t *testing.T) {
+func TestTreeNode_PostOrderTraverse(t *testing.T) {
 	root := InitTree()
 	root.PostOrderTraverse()
 }
 
-func TestLevelOrderTraverse(t *testing.T) {
+func TestTreeNode_LevelOrderTraverse(t *testing.T) {
 	root := InitTree()
 	root.LevelOrderTraverse()
 }
