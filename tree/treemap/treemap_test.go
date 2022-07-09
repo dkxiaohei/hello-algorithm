@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestDelete_EmptyTree(t *testing.T) {
+func TestTree_DeleteForEmptyTree(t *testing.T) {
 	tree := Tree{}
 	tree.Fprint(os.Stdout, true, "")
 
@@ -13,7 +13,7 @@ func TestDelete_EmptyTree(t *testing.T) {
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestDelete_LeafNode(t *testing.T) {
+func TestTree_DeleteForLeafNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Fprint(os.Stdout, true, "")
@@ -22,7 +22,7 @@ func TestDelete_LeafNode(t *testing.T) {
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestDelete_NonLeafNode(t *testing.T) {
+func TestTree_DeleteForNonLeafNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Fprint(os.Stdout, true, "")
@@ -31,7 +31,7 @@ func TestDelete_NonLeafNode(t *testing.T) {
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestDelete_NonExistentNode(t *testing.T) {
+func TestTree_DeleteForNonExistentNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Fprint(os.Stdout, true, "")
@@ -40,7 +40,7 @@ func TestDelete_NonExistentNode(t *testing.T) {
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestSearch_EmptyTree(t *testing.T) {
+func TestTree_SearchForEmptyTree(t *testing.T) {
 	tree := Tree{}
 	tree.Fprint(os.Stdout, true, "")
 
@@ -48,7 +48,7 @@ func TestSearch_EmptyTree(t *testing.T) {
 	resultTree.Fprint(os.Stdout, true, "")
 }
 
-func TestSearch_LeafNode(t *testing.T) {
+func TestTree_SearchForLeafNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Fprint(os.Stdout, true, "")
@@ -57,7 +57,7 @@ func TestSearch_LeafNode(t *testing.T) {
 	resultTree.Fprint(os.Stdout, true, "")
 }
 
-func TestSearch_NonLeafNode(t *testing.T) {
+func TestTree_SearchForNonLeafNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Add("a/b/c/e")
@@ -67,7 +67,7 @@ func TestSearch_NonLeafNode(t *testing.T) {
 	resultTree.Fprint(os.Stdout, true, "")
 }
 
-func TestSearch_NonExistentNode(t *testing.T) {
+func TestTree_SearchForNonExistentNode(t *testing.T) {
 	tree := Tree{}
 	tree.Add("a/b/c/d")
 	tree.Fprint(os.Stdout, true, "")
@@ -76,27 +76,27 @@ func TestSearch_NonExistentNode(t *testing.T) {
 	resultTree.Fprint(os.Stdout, true, "")
 }
 
-func TestFprint_EmptyTree(t *testing.T) {
+func TestTree_FprintWithEmptyTree(t *testing.T) {
 	tree := Tree{}
 
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestFprint_OneLevel(t *testing.T) {
+func TestTree_FprintWithOneLevel(t *testing.T) {
 	tree := Tree{}
 	tree.Add("/root")
 
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestFprint_TwoLevels(t *testing.T) {
+func TestTree_FprintWithTwoLevels(t *testing.T) {
 	tree := Tree{}
 	tree.Add("/root/sibling")
 
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestFprint_TwoSiblings(t *testing.T) {
+func TestTree_FprintWithTwoSiblings(t *testing.T) {
 	tree := Tree{}
 	tree.Add("/root/sibling1")
 	tree.Add("/root/sibling2")
@@ -104,7 +104,7 @@ func TestFprint_TwoSiblings(t *testing.T) {
 	tree.Fprint(os.Stdout, true, "")
 }
 
-func TestFprint_TwoRoots(t *testing.T) {
+func TestTree_FprintWithTwoRoots(t *testing.T) {
 	tree := Tree{}
 	tree.Add("/root/sibling1")
 	tree.Add("/root/sibling2/sibling1")
@@ -112,3 +112,4 @@ func TestFprint_TwoRoots(t *testing.T) {
 
 	tree.Fprint(os.Stdout, false, "")
 }
+

@@ -137,3 +137,4 @@ func getPadding(root bool, boxType BoxType) string {
 
 	return boxType.String() + " "
 }
+
