@@ -15,7 +15,7 @@ func TestNewNode(t *testing.T) {
 func TestNewLinkedList(t *testing.T) {
 	l := NewLinkedList()
 
-	assert.Equal(t, l, &LinkedList{})
+	assert.Equal(t, &LinkedList{}, l)
 	assert.Nil(t, l.headNode)
 }
 
