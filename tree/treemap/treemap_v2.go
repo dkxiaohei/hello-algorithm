@@ -50,3 +50,26 @@ func (t *TreeMap) add(path, value string, frags []string) {
 	nextTree.add(path, value, frags[1:])
 }
 
+func (t *TreeMap) Delete(path string) {
+	frags := strings.Split(path, "/")
+	t.delete(frags)
+}
+
+func (t *TreeMap) delete(frags []string) {
+	if len(frags) == 0 {
+		return
+	}
+
+	nextTree, ok := t.NextTree[frags[0]]
+	if !ok {
+		return
+	}
+
+	if len(frags) == 1 {
+		delete(t.NextTree, frags[0])
+		return
+	}
+
+	nextTree.delete(frags[1:])
+}
+
