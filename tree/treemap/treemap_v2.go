@@ -73,3 +73,25 @@ func (t *TreeMap) delete(frags []string) {
 	nextTree.delete(frags[1:])
 }
 
+func (t *TreeMap) Search(path string) *TreeMap {
+	frags := strings.Split(path, "/")
+	return t.search(frags)
+}
+
+func (t *TreeMap) search(frags []string) *TreeMap {
+	if len(frags) == 0 {
+		return nil
+	}
+
+	nextTree, ok := t.NextTree[frags[0]]
+	if !ok {
+		return nil
+	}
+
+	if len(frags) == 1 {
+		return nextTree
+	}
+
+	return nextTree.search(frags[1:])
+}
+
