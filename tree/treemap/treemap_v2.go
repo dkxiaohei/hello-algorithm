@@ -95,3 +95,30 @@ func (t *TreeMap) search(frags []string) *TreeMap {
 	return nextTree.search(frags[1:])
 }
 
+func (t *TreeMap) TreeNodesWithUrl() []string {
+	c := make(chan string)
+	go t.treeNodesWalk(c)
+
+	var urls []string
+	for url := range c {
+		urls = append(urls, url)
+	}
+	return urls
+}
+
+func (t *TreeMap) treeNodesWalk(c chan<- string) {
+	t.treeNodesWalker(c)
+	// close channel so that range can finish
+	close(c)
+}
+
+func (t *TreeMap) treeNodesWalker(c chan<- string) {
+	if t.Node.Url != `` {
+		c <- t.Node.Url
+	}
+
+	for _, v := range t.NextTree {
+		v.treeNodesWalker(c)
+	}
+}
+
