@@ -3,8 +3,8 @@ package treemap
 import "strings"
 
 type TreeMap struct {
-	NextTree map[string]*TreeMap
 	Node     *TreeNode
+	NextTree map[string]*TreeMap
 }
 
 type TreeNode struct {
@@ -23,14 +23,33 @@ func (n *TreeNode) Init(url, value string) {
 
 func NewTreeMap() *TreeMap {
 	return &TreeMap{
-		NextTree: make(map[string]*TreeMap),
 		Node:     NewTreeNode(),
+		NextTree: make(map[string]*TreeMap),
 	}
+}
+
+func (t *TreeMap) Init(url, value string) {
+	t.Node.Init(url, value)
+}
+
+func (t *TreeMap) Purge() {
+	t.Node = NewTreeNode()
+	t.NextTree = make(map[string]*TreeMap)
 }
 
 func (t *TreeMap) Add(path, value string) {
 	frags := strings.Split(path, "/")
-	t.add(path, value, frags)
+	if len(frags) == 0 {
+		return
+	}
+
+	if len(frags) == 1 {
+		t.Init(frags[0], value)
+		return
+	}
+	t.Init(``, frags[0])
+
+	t.add(path, value, frags[1:])
 }
 
 func (t *TreeMap) add(path, value string, frags []string) {
@@ -42,7 +61,9 @@ func (t *TreeMap) add(path, value string, frags []string) {
 	if !ok {
 		nextTree = NewTreeMap()
 		if len(frags) == 1 {
-			nextTree.Node.Init(path, value)
+			nextTree.Init(path, value)
+		} else {
+			nextTree.Init(``, frags[0])
 		}
 		t.NextTree[frags[0]] = nextTree
 	}
@@ -52,7 +73,17 @@ func (t *TreeMap) add(path, value string, frags []string) {
 
 func (t *TreeMap) Delete(path string) {
 	frags := strings.Split(path, "/")
-	t.delete(frags)
+	if len(frags) == 0 {
+		return
+	}
+
+	if len(frags) == 1 {
+		// delete the root of the TreeMap
+		t.Purge()
+		return
+	}
+
+	t.delete(frags[1:])
 }
 
 func (t *TreeMap) delete(frags []string) {
@@ -75,7 +106,18 @@ func (t *TreeMap) delete(frags []string) {
 
 func (t *TreeMap) Search(path string) *TreeMap {
 	frags := strings.Split(path, "/")
-	return t.search(frags)
+	if len(frags) == 0 {
+		return nil
+	}
+
+	if len(frags) == 1 {
+		if t.Node.Value == frags[0] {
+			return t
+		}
+		return nil
+	}
+
+	return t.search(frags[1:])
 }
 
 func (t *TreeMap) search(frags []string) *TreeMap {
