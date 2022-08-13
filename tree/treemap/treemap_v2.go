@@ -164,3 +164,11 @@ func (t *TreeMap) treeNodesWalker(c chan<- string) {
 	}
 }
 
+func (t *TreeMap) SearchUrls(path string) []string {
+	treeMap := t.Search(path)
+	if treeMap == nil {
+		return nil
+	}
+	return treeMap.TreeNodesWithUrl()
+}
+

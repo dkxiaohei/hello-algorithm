@@ -162,3 +162,25 @@ func isItemInSlice(item string, s []string) bool {
 	return false
 }
 
+func TestTreeMap_SearchUrls_WithEmptyResult(t *testing.T) {
+	root := NewTreeMap()
+	root.Add("a/b/c", "c")
+	root.Add("a/b/d", "d")
+
+	urls := root.SearchUrls("a/c")
+
+	assert.Empty(t, len(urls))
+}
+
+func TestTreeMap_SearchUrls_WithNonEmptyResult(t *testing.T) {
+	root := NewTreeMap()
+	root.Add("a/b/c", "c")
+	root.Add("a/b/d", "d")
+
+	urls := root.SearchUrls("a/b")
+
+	assert.Equal(t, 2, len(urls))
+	assert.True(t, isItemInSlice("a/b/c", urls))
+	assert.True(t, isItemInSlice("a/b/d", urls))
+}
+
