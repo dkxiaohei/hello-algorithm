@@ -5,10 +5,26 @@ import (
 	"testing"
 )
 
+func TestNewTreeMapWithPaths(t *testing.T) {
+	root := NewTreeMapWithPaths("a/b", "a/c")
+
+	assert.Empty(t, root.Node.Url)
+	assert.Equal(t, "a", root.Node.Value)
+	assert.Equal(t, 2, len(root.NextTree))
+
+	child1, _ := root.NextTree["b"]
+	assert.Equal(t, "a/b", child1.Node.Url)
+	assert.Equal(t, "b", child1.Node.Value)
+
+	child2, _ := root.NextTree["c"]
+	assert.Equal(t, "a/c", child2.Node.Url)
+	assert.Equal(t, "c", child2.Node.Value)
+}
+
 func TestTreeMap_Add_WithOneLayer(t *testing.T) {
 	root := NewTreeMap()
 
-	root.Add("a", "a")
+	root.Add("a")
 
 	assert.Equal(t, "a", root.Node.Url)
 	assert.Equal(t, "a", root.Node.Value)
@@ -18,8 +34,8 @@ func TestTreeMap_Add_WithOneLayer(t *testing.T) {
 func TestTreeMap_Add_WithTwoLayers(t *testing.T) {
 	root := NewTreeMap()
 
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	assert.Empty(t, root.Node.Url)
 	assert.Equal(t, "a", root.Node.Value)
@@ -37,8 +53,8 @@ func TestTreeMap_Add_WithTwoLayers(t *testing.T) {
 func TestTreeMap_Add_WithThreeLayers(t *testing.T) {
 	root := NewTreeMap()
 
-	root.Add("a/b/c", "c")
-	root.Add("a/b/d", "d")
+	root.Add("a/b/c")
+	root.Add("a/b/d")
 
 	assert.Empty(t, root.Node.Url)
 	assert.Equal(t, "a", root.Node.Value)
@@ -60,9 +76,26 @@ func TestTreeMap_Add_WithThreeLayers(t *testing.T) {
 	assert.Empty(t, child3.NextTree)
 }
 
+func TestTreeMap_AddPaths(t *testing.T) {
+	root := NewTreeMap()
+	root.AddPaths("a/b", "a/c")
+
+	assert.Empty(t, root.Node.Url)
+	assert.Equal(t, "a", root.Node.Value)
+	assert.Equal(t, 2, len(root.NextTree))
+
+	child1, _ := root.NextTree["b"]
+	assert.Equal(t, "a/b", child1.Node.Url)
+	assert.Equal(t, "b", child1.Node.Value)
+
+	child2, _ := root.NextTree["c"]
+	assert.Equal(t, "a/c", child2.Node.Url)
+	assert.Equal(t, "c", child2.Node.Value)
+}
+
 func TestTreeMap_Delete_WithOneLayer(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a", "a")
+	root.Add("a")
 
 	root.Delete("a")
 
@@ -73,8 +106,8 @@ func TestTreeMap_Delete_WithOneLayer(t *testing.T) {
 
 func TestTreeMap_Delete_WithTwoLayers(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	root.Delete("a/b")
 
@@ -88,8 +121,8 @@ func TestTreeMap_Delete_WithTwoLayers(t *testing.T) {
 
 func TestTreeMap_Delete_WithTwoLayers_DeleteRoot(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	root.Delete("a")
 
@@ -100,7 +133,7 @@ func TestTreeMap_Delete_WithTwoLayers_DeleteRoot(t *testing.T) {
 
 func TestTreeMap_Search_WithOneLayer(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a", "a")
+	root.Add("a")
 
 	treeMap := root.Search("a")
 
@@ -110,8 +143,8 @@ func TestTreeMap_Search_WithOneLayer(t *testing.T) {
 
 func TestTreeMap_Search_WithTwoLayers(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	treeMap := root.Search("a/c")
 
@@ -121,8 +154,8 @@ func TestTreeMap_Search_WithTwoLayers(t *testing.T) {
 
 func TestTreeMap_Search_WithTwoLayers_SearchRoot(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	treeMap := root.Search("a")
 
@@ -135,7 +168,7 @@ func TestTreeMap_Search_WithTwoLayers_SearchRoot(t *testing.T) {
 
 func TestTreeMap_TreeNodesWithUrl_WithOneLayer(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a", "a")
+	root.Add("a")
 
 	urls := root.TreeNodesWithUrl()
 	assert.Equal(t, 1, len(urls))
@@ -144,8 +177,8 @@ func TestTreeMap_TreeNodesWithUrl_WithOneLayer(t *testing.T) {
 
 func TestTreeMap_TreeNodesWithUrl_WithTwoLayers(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b", "b")
-	root.Add("a/c", "c")
+	root.Add("a/b")
+	root.Add("a/c")
 
 	urls := root.TreeNodesWithUrl()
 	assert.Equal(t, 2, len(urls))
@@ -164,8 +197,8 @@ func isItemInSlice(item string, s []string) bool {
 
 func TestTreeMap_SearchUrls_WithEmptyResult(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b/c", "c")
-	root.Add("a/b/d", "d")
+	root.Add("a/b/c")
+	root.Add("a/b/d")
 
 	urls := root.SearchUrls("a/c")
 
@@ -174,8 +207,8 @@ func TestTreeMap_SearchUrls_WithEmptyResult(t *testing.T) {
 
 func TestTreeMap_SearchUrls_WithNonEmptyResult(t *testing.T) {
 	root := NewTreeMap()
-	root.Add("a/b/c", "c")
-	root.Add("a/b/d", "d")
+	root.Add("a/b/c")
+	root.Add("a/b/d")
 
 	urls := root.SearchUrls("a/b")
 

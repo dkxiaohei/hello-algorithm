@@ -28,6 +28,12 @@ func NewTreeMap() *TreeMap {
 	}
 }
 
+func NewTreeMapWithPaths(paths ...string) *TreeMap {
+	root := NewTreeMap()
+	root.AddPaths(paths...)
+	return root
+}
+
 func (t *TreeMap) Init(url, value string) {
 	t.Node.Init(url, value)
 }
@@ -37,22 +43,22 @@ func (t *TreeMap) Purge() {
 	t.NextTree = make(map[string]*TreeMap)
 }
 
-func (t *TreeMap) Add(path, value string) {
+func (t *TreeMap) Add(path string) {
 	frags := strings.Split(path, "/")
 	if len(frags) == 0 {
 		return
 	}
 
 	if len(frags) == 1 {
-		t.Init(frags[0], value)
+		t.Init(frags[0], frags[0])
 		return
 	}
 	t.Init(``, frags[0])
 
-	t.add(path, value, frags[1:])
+	t.add(path, frags[1:])
 }
 
-func (t *TreeMap) add(path, value string, frags []string) {
+func (t *TreeMap) add(path string, frags []string) {
 	if len(frags) == 0 {
 		return
 	}
@@ -61,14 +67,23 @@ func (t *TreeMap) add(path, value string, frags []string) {
 	if !ok {
 		nextTree = NewTreeMap()
 		if len(frags) == 1 {
-			nextTree.Init(path, value)
+			nextTree.Init(path, frags[0])
 		} else {
 			nextTree.Init(``, frags[0])
 		}
 		t.NextTree[frags[0]] = nextTree
 	}
 
-	nextTree.add(path, value, frags[1:])
+	nextTree.add(path, frags[1:])
+}
+
+func (t *TreeMap) AddPaths(paths ...string) {
+	if len(paths) == 0 {
+		return
+	}
+	for _, path := range paths {
+		t.Add(path)
+	}
 }
 
 func (t *TreeMap) Delete(path string) {
