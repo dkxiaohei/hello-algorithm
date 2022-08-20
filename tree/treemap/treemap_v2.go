@@ -152,7 +152,7 @@ func (t *TreeMap) search(frags []string) *TreeMap {
 	return nextTree.search(frags[1:])
 }
 
-func (t *TreeMap) TreeNodesWithUrl() []string {
+func (t *TreeMap) LeafNodesWithUrl() []string {
 	c := make(chan string)
 	go t.treeNodesWalk(c)
 
@@ -170,7 +170,7 @@ func (t *TreeMap) treeNodesWalk(c chan<- string) {
 }
 
 func (t *TreeMap) treeNodesWalker(c chan<- string) {
-	if t.Node.Url != `` {
+	if len(t.NextTree) == 0 && t.Node.Url != `` {
 		c <- t.Node.Url
 	}
 
@@ -184,6 +184,6 @@ func (t *TreeMap) SearchUrls(path string) []string {
 	if treeMap == nil {
 		return nil
 	}
-	return treeMap.TreeNodesWithUrl()
+	return treeMap.LeafNodesWithUrl()
 }
 

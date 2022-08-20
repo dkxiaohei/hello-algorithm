@@ -166,24 +166,34 @@ func TestTreeMap_Search_WithTwoLayers_SearchRoot(t *testing.T) {
 	assert.NotEmpty(t, treeMap.NextTree["c"])
 }
 
-func TestTreeMap_TreeNodesWithUrl_WithOneLayer(t *testing.T) {
+func TestTreeMap_LeafNodesWithUrl_WithOneLayer(t *testing.T) {
 	root := NewTreeMap()
 	root.Add("a")
 
-	urls := root.TreeNodesWithUrl()
+	urls := root.LeafNodesWithUrl()
 	assert.Equal(t, 1, len(urls))
 	assert.Equal(t, "a", urls[0])
 }
 
-func TestTreeMap_TreeNodesWithUrl_WithTwoLayers(t *testing.T) {
+func TestTreeMap_LeafNodesWithUrl_WithTwoLayers(t *testing.T) {
 	root := NewTreeMap()
 	root.Add("a/b")
 	root.Add("a/c")
 
-	urls := root.TreeNodesWithUrl()
+	urls := root.LeafNodesWithUrl()
 	assert.Equal(t, 2, len(urls))
 	assert.True(t, isItemInSlice("a/b", urls))
 	assert.True(t, isItemInSlice("a/c", urls))
+}
+
+func TestTreeMap_LeafNodesWithUrl_WithThreeLayers(t *testing.T) {
+	root := NewTreeMapWithPaths("a/b")
+	root.AddPaths("a/b/c", "a/b/d")
+
+	urls := root.LeafNodesWithUrl()
+	assert.Equal(t, 2, len(urls))
+	assert.True(t, isItemInSlice("a/b/c", urls))
+	assert.True(t, isItemInSlice("a/b/d", urls))
 }
 
 func isItemInSlice(item string, s []string) bool {
