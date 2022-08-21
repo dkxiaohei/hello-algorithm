@@ -28,9 +28,9 @@ func NewTreeMap() *TreeMap {
 	}
 }
 
-func NewTreeMapWithPaths(paths ...string) *TreeMap {
+func NewTreeMapWithPaths(paths []string) *TreeMap {
 	root := NewTreeMap()
-	root.AddPaths(paths...)
+	root.AddPaths(paths)
 	return root
 }
 
@@ -77,7 +77,7 @@ func (t *TreeMap) add(path string, frags []string) {
 	nextTree.add(path, frags[1:])
 }
 
-func (t *TreeMap) AddPaths(paths ...string) {
+func (t *TreeMap) AddPaths(paths []string) {
 	if len(paths) == 0 {
 		return
 	}

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewTreeMapWithPaths(t *testing.T) {
-	root := NewTreeMapWithPaths("a/b", "a/c")
+	root := NewTreeMapWithPaths([]string{"a/b", "a/c"})
 
 	assert.Empty(t, root.Node.Url)
 	assert.Equal(t, "a", root.Node.Value)
@@ -78,7 +78,7 @@ func TestTreeMap_Add_WithThreeLayers(t *testing.T) {
 
 func TestTreeMap_AddPaths(t *testing.T) {
 	root := NewTreeMap()
-	root.AddPaths("a/b", "a/c")
+	root.AddPaths([]string{"a/b", "a/c"})
 
 	assert.Empty(t, root.Node.Url)
 	assert.Equal(t, "a", root.Node.Value)
@@ -187,8 +187,8 @@ func TestTreeMap_LeafNodesWithUrl_WithTwoLayers(t *testing.T) {
 }
 
 func TestTreeMap_LeafNodesWithUrl_WithThreeLayers(t *testing.T) {
-	root := NewTreeMapWithPaths("a/b")
-	root.AddPaths("a/b/c", "a/b/d")
+	root := NewTreeMapWithPaths([]string{"a/b"})
+	root.AddPaths([]string{"a/b/c", "a/b/d"})
 
 	urls := root.LeafNodesWithUrl()
 	assert.Equal(t, 2, len(urls))
